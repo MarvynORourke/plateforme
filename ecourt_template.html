@@ -59,6 +59,11 @@
 
   <!-- Le papier -->
  <article class="paper" id="paper">
+  <div class="editable h1" id="h1-1" onclick="edit('h1-1')" contenteditable>Titre du cours</div>
+    <div class="editable h2" id="h2-1" onclick="edit('h2-1')" contenteditable>Chapitre I</div>
+    <div  class="editable p" id="p-1"  onclick="edit('p-1')" contenteditable>
+      Ecrivez...
+    </div>
  </article>
 
   <!-- Pour le copyright -->
@@ -90,12 +95,12 @@
   <!-- Pour le menu contextuel (click droit) -->
   <div>
     <ul id="context">
-      <li><span onclick="save();upload();">Save&nbsp;&&nbsp;Upload();</span></li>
+      <li><span onclick="upload();">Upload</span></li>
+      <li><span onclick="download();">Download</span></li>
       <li><span onclick="update();save();">Save&nbsp;temporary</span></li>
       <li><span onclick="saveTextAsFile();">Save&nbsp;on&nbsp;hard&nbsp;drive</span></li>
-      <li><span onclick="">Download&nbsp;as&nbsp;html</span></li>
+      <!-- <li><span onclick="">Download&nbsp;as&nbsp;html</span></li> -->
       <li><span onclick="load();">Load&nbsp;temporary</span></li>
-      <li><span onclick="">Load&nbsp;from&nbsp;hard&nbsp;drive</span></li>
       <li><span onclick="createNewDocument();">Create&nbsp;new&nbsp;document</span></li>
     </ul>
   </div>
@@ -109,9 +114,71 @@
 <script src="toastr.js"></script>
 <script type="text/javascript">
 
-  function upload() {
-    var html document.getElementsByTagName("article")[0].innerHTML;
+  function download() {
+    var id_course = window.prompt("type the id course to download...", "0");
+
+    var xhr = new XMLHttpRequest();
+    
+    xhr.open('GET', 'file?file_id=' + id_course);
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) { 
+            var htmlLoaded = atob(xhr.responseText);
+            
+            try { 
+              edited = "";
+              nomDocument = id_course;
+              if (htmlLoaded==null || htmlLoaded=="") {
+                toastr["error"]("Ce fichier n'existe pas...", "Ouups... :D");
+                createNewDocument(); //pour réinitialiser le nom document proprement...
+                return;
+              }
+              document.title = "[ECOURT] " + nomDocument;
+              document.getElementById("title").innerText = nomDocument;
+              document.getElementById("paper").innerHTML = htmlLoaded;
+              var className = "editable";
+              classname = document.getElementsByClassName(className);
+              for(var i=0;i<classname.length;i++){
+                var str = "edit";
+                console.log("edit("+classname[i].id+")");
+                classname[i].setAttribute("onclick", "edit('"+classname[i].id+"')");
+              } 
+              toastr["success"]("Fichier <big>temporaire</big> chargé...", "Document loaded !");
+            } catch (err) {
+              toastr["error"]("Erreur lors du charmgement :( !", "Ouups... :D");
+            }
+
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+            alert("error... :'(");
+        }
+    };
+
+    xhr.send(null);
   }
+
+  function upload() {
+    var html = document.getElementsByTagName("article")[0].innerHTML;
+    var user_name = window.prompt("type your user name", "user_name");
+    var password  = window.prompt("type your pass word", "super_password_make_sure_nobody_is_watching...");
+
+    var params = "nom_doc=" + nomDocument + "&course=" + btoa(html) + "&user_name=" + user_name + "&password=" + password;
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+           alert(xmlhttp.responseText);
+        } else if (this.readyState == 4) {
+          alert("failed... :'(");
+        }
+    };
+
+    xhttp.setRequestHeader("Content-type", "application/text");
+
+    xhttp.open("POST", "upload", true);
+    xhttp.send(params);
+  }
+
+
 
   toastr.options = {
     "closeButton": false,
