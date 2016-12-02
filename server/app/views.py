@@ -7,7 +7,7 @@ from controller import *
 
 import io
 import random
-import unicodedata
+import unicodedata 
 
 import db
 
@@ -28,7 +28,20 @@ def upload_page():
         return "Course id : ", add_course(user_id, nom_doc, course)
 
     return "FAILED TO UPLOAD... :'("
+
+@app.route('/register', methods=['GET'])    
+def register_page():
+    return redirect(url_for('static', filename="register.html"))
+
+@app.route('/register', methods=['POST'])
+def register_action():
+    #register the guy...
+    user_name = request.form['login']
+    password = request.form['password']
+
+    db.add_user(user_name, password)
     
+    return redirect(url_for('static', filename='ecourt_template.html'))
 
 
 
