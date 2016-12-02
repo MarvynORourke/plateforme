@@ -18,6 +18,7 @@ def init_db():
     c.execute("""CREATE TABLE IF NOT EXISTS courses
                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
                  USER_ID    INTEGER     NOT NULL
+                 NAME       TEXTE       NOT NULL
                  );""")
     conn.commit()
     conn.close()
@@ -60,6 +61,27 @@ def check_user_connection(user_name, password):
     except:
         return False
 
+def add_course(id_user,name):
+    """Add course in DB"""
+    conn = sqlite3.connect(DB_LOG_NAME)
+    c = conn.cursor()
+    c.execute("""INSERT INTO course
+                 (USER_ID,NAME) {'{}'};""".format(id_user,name))
+    last = c.lastrowid
+    c.close()
+    conn.close()
+    return last
+
+
+
+def get_courses(id_user):
+    """Get course from db"""
+    conn = sqlite3.connect(DB_LOG_NAME)
+    c = conn.cursor()
+    c.execute("""SELECT * from COURSE WHERE USER_ID = {'{}'}""".format(id_user)
+                 
+    c.close()
+    conn.close()
 
 
 
