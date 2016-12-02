@@ -4,3 +4,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 from app import views
+
+import db
+
+db.init_db()

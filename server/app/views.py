@@ -9,11 +9,27 @@ import io
 import random
 import unicodedata
 
-@app.route('/login', methods=['POST'])
-def index_page():
+import db
+
+@app.route('/<filename>', methods=['GET'])
+def redirection_de_gros_porc(filename):
+    return redirect(url_for('static', filename=filename))
+
+
+
+
+@app.route('/upload', methods=['POST'])
+def upload_page():
     user_name = request.args.get('user_name')
     password = request.args.get('password')
-    if check_user_connection(user_name, password)
+    nom_doc = request.args.get('nom_doc')
+    course = request.args.get('course')
+    
+    if check_user_connection(user_name, password):
+        user_id = get_id_user(user_name, password)
+        add_course(user_id, nom_doc, course)
+
+    
     
 
 

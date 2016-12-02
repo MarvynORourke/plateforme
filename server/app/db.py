@@ -61,6 +61,24 @@ def check_user_connection(user_name, password): #tested
     except:
         return False
 
+def get_id_user(user_name, password): #tested
+    """get username id from unsername and apssword..."""
+    m = hashlib.md5()
+    m.update(password)
+    digest = m.hexdigest()
+    
+    conn = sqlite3.connect(DB_LOG_NAME)
+    c = conn.cursor()
+    c.execute("""SELECT ID FROM users
+                 WHERE USER = '{}' AND PASS = '{}';""".format(
+                     base64.b64encode(user_name), digest))
+    conn.commit()
+
+    for row in enumerate(c):
+        tmp = tuple(row)[1][0]
+        return tmp
+
+
 def add_course(id_user, name): #tested
     """Add course in DB"""
     conn = sqlite3.connect(DB_LOG_NAME)
@@ -96,19 +114,25 @@ def get_courses(id_user): #tested
     return out
 
 
-init_db()
-add_user("olivier", "moi")
-add_user("toi", "moche")
+if __name__ == '__main__':
+    init_db()
+    add_user("olivier", "moi")
+    add_user("toi", "moche")
 
-print "test connection..."
-print check_user_connection("olivier", "moi")
-print check_user_connection("", "ty")
-print check_user_connection("olivier", "toi")
+    print "test connection..."
+    print check_user_connection("olivier", "moi")
+    print check_user_connection("", "ty")
+    print check_user_connection("olivier", "toi")
 
-print "adding courses id..."
-print add_course(1, "mon_cours")
-print add_course(2, "a")
-print add_course(2, "b")
+    print "adding courses id..."
+    print add_course(1, "mon_cours")
+    print add_course(2, "a")
+    print add_course(2, "b")
 
-print "get courses for id 2..."
-print get_courses(2)
+    print "get courses for id 2..."
+    print get_courses(2)
+
+
+    print "get user_id..."
+    print "olivier ", get_id_user("olivier", "moi")
+    print "toi ", get_id_user("toi", "moche")

@@ -1,7 +1,8 @@
 import db
 
 def add_course(id_user, name, texte):
-    ident = add_course(id_user,name)
-    fichier = open("static"+"/" + name + ident, "w")
+    ident = db.add_course(id_user, name)
+    fichier = open("static/" + ident, 'w')
     fichier.write(texte)
+    fichier.close()
     
