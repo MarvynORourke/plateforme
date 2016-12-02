@@ -1,0 +1,58 @@
+#textarea, #textarea:focus {
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-size: 1em;
+  font-family: "Times New Roman", Times, serif;
+  outline: none;
+}
+
+#addParagraphe, #addImage {
+  padding-top: 0;
+  margin-top: 0;
+  font-family: 'Arial';
+  font-size: 15px;
+  color: #aaa;
+}
+
+#addImage {
+  float: right;
+}
+
+.editor-control span {
+    color: #767676;
+    text-decoration: none;
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin: 0;
+    display: inline;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: monospace;
+    text-transform: uppercase;
+    -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease
+}
+
+.editor-control span:hover {
+    color: #D24D4D;
+    -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease
+}
+
+span.editor-divider {
+    background: #EDEDED;
+    width: 1px;
+    height: 1px;
+    padding: 1px;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.editor-control {
+    padding: 0.5em;
+    background: #FFFFFF;
+    border-bottom: 1px solid #D7D7D7;
+    border-radius: 4px 4px 0 0;
+}
+

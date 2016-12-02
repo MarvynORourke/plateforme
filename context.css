@@ -1,0 +1,4 @@
+#context { display: none; z-index:5; font-family: 'Arial'; z-index: 1000;}
+#context li { position: absolute; left: 0; top: 0; -webkit-tranform: rotate(12deg); opacity: 0.9; transform-origin: 50% 50%; text-indent: 80px; list-style:none; border-radius: 20px;}
+#context li span { z-index: 10; padding: 0 6px; border-radius: 3px; text-shadow: 0 0 6px White;  background-color: #fff;}
+#context li:hover span { cursor:pointer; background-color: #009; color: White; z-index: 100;text-shadow: 0 0 3px Black;}

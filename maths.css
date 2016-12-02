@@ -1,0 +1,100 @@
+.rotate {
+	-moz-transform:rotate(-90deg);
+	-webkit-transform:rotate(-90deg); 
+	-o-transform:rotate(-90deg);
+	-ms-transform : rotate(-90deg);
+	display: inline-block;
+}
+/*chimie*/
+.rarrow {
+	position: relative;
+	font-size: 125%;
+	font-family: serif;
+	top: -0.5ex;
+	margin: 0px 2px;
+}
+.larrow {
+	position: absolute;
+	left: 0px;
+	top: 0.8ex;
+}
+/*fractions*/
+.fraction {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle; 
+	letter-spacing: 0.01em;
+	text-align: center;
+}
+.fraction > span { 
+	display: block; 
+	padding: 0.2em; 
+}
+.fraction span.fdn {border-top: thin solid black;}
+.fraction span.bar {display: none;}
+/*vectors*/
+.sy {
+	position: relative;
+	padding-left: 1px;
+	font-size: 11pt;
+	font-weight: 500;
+	text-align: center;
+}
+.sy span.oncapital {
+	position: absolute;
+	top: -1em;
+	left: 0.2em;
+	font-size: 70%;
+}
+.sy span.onsmall {
+	position: absolute;
+	top: -0.6em;
+	left: 0.2em;
+	font-size: 70%;
+}
+/*limites*/
+.limes {
+	display: inline-block;
+	position: relative;
+	margin: 0 2px;
+	vertical-align: middle; 
+	text-align: center;
+}
+.limes > span {	display: block;	}
+.limes span.numup {	font-size: 70%;	}
+.limes span.overdn {	font-size: 70%;	}
+/*somme_&&_integrale*/
+.intsuma {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	text-align: center;
+	margin-bottom: 0.5ex;
+}
+.intsuma .lim, .intsuma .lim-up {
+	display: block;
+	font-size: 75%;
+	text-align: center;
+}
+.intsuma .lim-up {
+	margin-bottom: 0;
+	margin-left: 0.8ex;
+}
+.intsuma .lim {margin-bottom: -0.6ex;}
+.intsuma .sum {font-size: 1.2em;}
+.intsuma .sum-frac {font-size: 2em;}
+/*racines*/
+.n-root {
+	position: relative;
+	top: -1.3em;
+	left: 1.9ex;
+	font-size: 45%;
+}
+.radical {
+	font-size: 1.7em;
+	vertical-align: middle;
+}
+.radicand { 
+	padding: 0.5ex;
+	border-top: thin black solid;
+}

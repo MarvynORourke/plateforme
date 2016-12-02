@@ -1,0 +1,51 @@
+
+    <div class="editable h1" id="h1-1" onclick="edit('h1-1')">Maths <i>Suitables</i></div><div class="editable h2" id="1433089994455" onclick="edit('1433089994455')">Introduction</div><div class="editable p" id="1433090009283" onclick="edit('1433090009283')">Depuis la nuit des temps, les indiens ont cherchés la recette du dentifrice sacré... Mais la pâte n'a pas toujours été aussi pâteuse, du au manque d'experience des <b>zigotos</b> qu'ils étaient.<br> Mais un jours le grand gourou des maths: <b><i>momo</i></b> alias <b><i>Leibensky</i></b> découvrit la formule qui faisait cracher rose le volcan du sacrifice.<br> C'est ainsi que naquirent les mathématiques dites : <b><i><u>suitables</u></i></b>.</div><div class="editable p" id="1433090276329" onclick="edit('1433090276329')">Aujourd'hui son utilité est toujours d'actualité vu l'ampleur qu'ont pu prendre ce domaine des mathématiques dans la vie de tous les jours.<br> Les "<i>Maths Suitables</i>" sont partout, donc autant les comprendre...</div>
+    <div class="editable h2" id="h2-1" onclick="edit('h2-1')">Formule de Leibensky</div><div class="editable p" id="1433089614295" onclick="edit('1433089614295')">La formule de Leibensky permet de calculer l'intégrale d'une fonction <i>suitable</i> sans faire intervenir un <i>pet</i> d'analyse...<br> Par exemple, l'intégrale :</div><div class="editable p" id="1433089743603" onclick="edit('1433089743603')"><div class="integrale">		<span class="intsuma">			<span class="lim-up">2π</span>
+			<span class="sum">∫</span>
+			<span class="lim">0</span>
+		</span>
+		sin <i>x</i> d<i>x</i> = 0
+	</div>	</div><div class="editable p" id="1433089728983" onclick="edit('1433089728983')">Devient :</div>
+    <div class="editable p" id="p-1" onclick="edit('p-1')"><div class="test-general">		<i>f</i>(<i>x</i>) = 		<span class="radical">			<span class="n-root">3</span>			√		</span>		<span class="radicrand">			(			<span class="intsuma">
+				<span class="lim">	<i>x</i>	</span>
+				<span class="sum-frac">∑</span>
+				<span class="lim">	<i>i</i> = 0	</span>
+			</span>
+			<div class="fraction">
+				<span class="fup">	<i>i</i>(<i>i</i> + 1)<sup>2</sup>	</span>
+				<span class="bar">/</span>
+				<span class="fdn">
+					<i>i</i><sup>2</sup> - 
+						<div class="fraction">
+							<span class="fup">	1	</span>
+							<span class="bar">	/	</span>
+							<span class="fdn">	<i>i</i><sup>2</sup>	</span>
+						</div>
+				</span>
+			</div>
+			)
+		</span>
+	</div></div><div class="editable p" id="1433089610586" onclick="edit('1433089610586')">Ce qui est du coup, <b>vachement</b> plus simple a calculer étant donnée que la fonction sin si insurmontable a peu être mise de côté.<br> Et par la même occasion, mettre des formules comme ça, ça fait <b>vachement</b> classe :p !!!</div><div class="editable h2" id="1433090481494" onclick="edit('1433090481494')">Calcul liminaire d'une équation de Leibensky</div><div class="editable p" id="1433090534049" onclick="edit('1433090534049')">La preuve d'un calcul de limite appliqué à une équation du type <i>Leibensky</i> est extrêmement simple voir simplement simplissime !</div><div class="editable p" id="1433090606424" onclick="edit('1433090606424')"><div class="gag">		Si 		<span class="limes">
+			<span class="overup">lim</span>
+			<span class="overdn"><i>x</i>→8</span>
+		</span>
+		<span class="fraction">
+			<span class="fup">1</span>
+			<span class="bar">/</span>
+			<span class="fdn"><i>x</i> - 8</span>
+		</span>
+		= ∞ alors, on peut dire aisément que :
+		<span class="limes">
+			<span class="overup">lim</span>
+			<span class="overdn"><i>x</i>→5</span>
+		</span>
+		<span class="fraction">
+			<span class="fup">1</span>
+			<span class="bar">/</span>
+			<span class="fdn"><i>x</i> - 5</span>
+		</span>
+		= <span class="rotate">5</span>
+		CQFD. ;)
+	</div></div><div class="editable p" id="1433090612215" onclick="edit('1433090612215')">Cependant, derrière une simplicité si déconcertante, il ne faut pas faire d'excès de zèle comme le faisaient les papous de la 3° dynastie des castors chinois (<small>qui eux avaient non pas les yeux, mais les dents bridées...</small>) qui chantaient à <i>tue tête</i> :<br> "<b><i>Et les papillons chevauchaient les licornes [...]</i></b>" <br> 
+ce qui est techniquement impossible étant donnée que le poids les passoires est inférieurs à celui des casseroles (exemple de la preuve par l'absurde...) !</div><div class="editable h2" id="1433090824301" onclick="edit('1433090824301')">Conclusion</div><div class="editable p" id="1433090833836" onclick="edit('1433090833836')">Ciao <s>bande de <i><b>craignos</b></i></s> les enfants !!! :p</div>
+  

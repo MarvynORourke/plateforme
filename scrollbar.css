@@ -1,0 +1,48 @@
+/*  chrome/safari */
+::-webkit-scrollbar-track {
+  border: 1px solid black;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #000000;
+  background-image: -webkit-gradient(linear,
+                     left bottom,
+                     right top,
+                     color-stop(0.44, #555),
+                     color-stop(0.72, #777),
+                     color-stop(0.86, #555));  
+  background-size: 1px 3px;
+}
+/*  mozilla */
+@-moz-document url-prefix(http://), url-prefix(https://) {
+  scrollbar {
+    -moz-appearance: none !important;
+    backgroung: rgb(0, 255, 0);
+  }
+  thumb, scrollbarbutton {
+    -moz-appearance: none !important;
+    backgroung: rgb(0, 0, 255) !important;
+  }
+  thumb:hover, scrollbarbutton:hover {
+    -moz-appearance: none !important;
+    backgroung: rgb(255, 0, 0) !important;
+  }
+  scrollbarbutton { display: none !important; }
+  scrollbar[orient="vertical"] {  min-width: 112px; }
+}
+/*  IE  */
+body {
+  scrollbar-base-color: #C0C0C0;
+  scrollbar-3dlight-color: #C0C0C0;
+  scrollbar-hightlight-color: #C0C0C0;
+  scrollbar-arrow-color: #C0C0C0;
+  scrollbar-track-color: #C0C0C0;
+  scrollbar-shadow-color: #C0C0C0;
+  scrollbar-dark-shadow-color: #C0C0C0;
+}

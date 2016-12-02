@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" type="text/css" href="toastr.css">
+  <link rel="stylesheet" type="text/css" href="paper.css"> 
+  <link rel="stylesheet" type="text/css" href="editor.css"> 
+  <link rel="stylesheet" type="text/css" href="context.css"> 
+  <link rel="stylesheet" type="text/css" href="scrollbar.css"> 
+  <link rel="stylesheet" type="text/css" href="header.css"> 
+  <link rel="stylesheet" type="text/css" href="maths.css"> 
+  <title>[ECOURT] *</title>
+  <style>
+#results_pane {
+  position: fixed;
+  width: 100%;
+  margin: 0 auto;
+  bottom:20px;
+  //left:5px;
+  height:2em;
+  margin: auto;
+  z-index: 5;
+  overflow-y: hidden;
+  //background: -webkit-linear-gradient(#ddd 0%, #ddd 50%, #eaeaea 50%, #eaeaea 100%);
+  //background: linear-gradient(#ddd 0%, #ddd 50%, #eaeaea 50%, #eaeaea 100%);
+  background-color: white;
+  opacity: 0.7;
+}
+
+
+.result_card {
+  float: left;
+  padding-left: 5px;
+  content: " | ";
+}
+
+.result_card h1 {
+  font-size: 1em;
+  //margin: 0;
+}
+
+.result_card a {
+  text-decoration: none;
+  color: black;
+}
+  </style>
+</head>
+
+<body onkeypress="reactOn(event)">
+  <div class="page-header">
+    <input type="checkbox" id="fullscreen">
+    <label for="fullscreen"></label>
+    <header>
+      <a href="#home" id="home">ECOURT</a>
+      <span id="title">*</span>
+    </header>
+  </div>
+
+  <!-- Le papier -->
+ <article class="paper" id="paper">
+ </article>
+
+  <!-- Pour le copyright -->
+  <footer class="product" style='font-size: 10px;list-style:none;padding-right: 1%;'>
+    <small>
+      <span style='float: right;'>Licence : <i>CC</i> ;&nbsp;</span>
+      <span style='float: right;'>Partage : <i>Tout le monde</i> ;&nbsp;</span>
+      <span style='float: right;'>Date : <i>30/01/2014</i> ;&nbsp;</span>
+      <span style='float: right;'>Auteur : <i>O.RISSER-MAROIX</i> ;&nbsp;</span>
+      <span style='float: left;'>Une production Olivier RISSER-MAROIX (c) 2015&nbsp;</span>
+    </small>
+  </footer>
+
+  <!-- pour la fenetre modale pour tapers des equations ou chercher des images -->
+  <!-- <div class="modal-wrapper">
+    <div class="modal">
+      <div class="head">
+        <span class="modal-title" id="modal-title">TITRE</span>
+        <span class="btn-close trigger" onclick="forceCloseModal();"></span>
+      </div>
+      <div class="content" id="modal-content">
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Pour les sugestions wikipedia -->
+  <div class="" id="results_pane"></div></br>
+
+  <!-- Pour le menu contextuel (click droit) -->
+  <div>
+    <ul id="context">
+      <li><span onclick="save();upload();">Save&nbsp;&&nbsp;Upload();</span></li>
+      <li><span onclick="update();save();">Save&nbsp;temporary</span></li>
+      <li><span onclick="saveTextAsFile();">Save&nbsp;on&nbsp;hard&nbsp;drive</span></li>
+      <li><span onclick="">Download&nbsp;as&nbsp;html</span></li>
+      <li><span onclick="load();">Load&nbsp;temporary</span></li>
+      <li><span onclick="">Load&nbsp;from&nbsp;hard&nbsp;drive</span></li>
+      <li><span onclick="createNewDocument();">Create&nbsp;new&nbsp;document</span></li>
+    </ul>
+  </div>
+
+
+
+
+</body>
+
+<script src="jquery.min.js"></script>
+<script src="toastr.js"></script>
+<script type="text/javascript">
+
+  function upload() {
+    var html document.getElementsByTagName("article")[0].innerHTML;
+  }
+
+  toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "2500",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+  var edited = "";
+  var nomDocument = "";
+  var imageUrlDuckduckgo = "";
+  var focused = true;
+  var modal_edition = false;
+  var actSelected = "", oldSelected = "";
+  window.onfocus = function() {
+    focused = true;
+  };
+  window.onblur = function() {
+    focused = false;
+  };
+  function search(term) {
+    return $.ajax({
+      url: "https://api.duckduckgo.com",
+      type: "GET",
+      crossDomain: true,
+      dataType: 'jsonp', 
+      data: { q:term, format:'json', pretty:1, s:3 },
+      success: function(data) {  imageUrlDuckduckgo = data.Image; }
+    });
+  }
+  function edit(idt) {
+    if (edited != idt) {
+      if (edited != "") {
+        update();
+      }
+      if (idt == "") return;
+      var bls = document.getElementById(idt);
+      bls.classList.remove('blinking');
+      //bls.ondblclick = "";
+      var html = bls.innerHTML.replace('\n', '');
+      html = html.replace('<br>', '<br>\n');
+      console.log(idt);
+      //<span onclick='addParagraphe();'><small>Ajouter un paragraphe...</small></span></br>
+      var textControl = '<div class="editor-control" id="editor-control">                               \
+                <span onclick="changeClassTypeToH1();">H1</span>                                        \
+                <span onclick="changeClassTypeToH2();">H2</span>                                        \
+                <span onclick="changeClassTypeToP();">P</span>                                          \
+                <span class="editor-divider"></span>                                                    \
+                <span onclick="addBig()">B</span>                                                                          \
+                <span onclick="addIt();">I</span>                                                                          \
+                <span onclick="addUnd()">U</span>                                                                         \
+                <!-- <span>                                                                                  \
+                    <abbr title="Unordered List">UL</abbr>                                              \
+                </span>                                                                                 \
+                <span>                                                                                  \
+                    <abbr title="Ordered List">OL</abbr>                                                \
+                </span>     -->                                                                            \
+                <span>&lt;&gt;</span>                                                                   \
+                <span onclick="addBr();">&#8617;</span>                                                                       \
+                <span class="editor-divider"></span>                                                    \
+                <span>link</span>                                                                       \
+                <span>Img</span>                                                                        \
+                <span onclick="writeEquation();">Equation</span>                                                                   \
+            </div>';
+      var textarea = "<div class='editBox'> " + textControl + "<textarea id='textarea' value='' placeholder='Tapez votre cours ici ...' ondblclick='update()' onclick=''></textarea> <span onclick='addParagraphe();' id='addParagraphe'><small>Ajouter un paragraphe...</small></span> <!-- <span onclick='addImage();' id='addImage'><small>Ajouter une image...</small></span> --> </div>";
+      bls.innerHTML = textarea;
+      var txr = document.getElementById("textarea");
+      txr.value = html.replace('\n', '');
+      txr.focus();
+      edited = idt;
+    }
+  }
+  function addBig() {
+    wrapText("textarea", '<b>', '</b>');
+  }
+  function addIt() {
+    wrapText("textarea", '<i>', '</i>');
+  }
+  function addUnd() {
+    wrapText("textarea", '<u>', '</u>');
+  }
+  function addBr() {
+    wrapText("textarea", '', '<br> \n');
+    autoResizeTextArea();
+  }
+  function wrapText(elementID, openTag, closeTag) {
+    var textArea = $('#' + elementID);
+    var len = textArea.val().length;
+    var start = textArea[0].selectionStart;
+    var end = textArea[0].selectionEnd;
+    var selectedText = textArea.val().substring(start, end);
+    var replacement = openTag + selectedText + closeTag;
+    textArea.val(textArea.val().substring(0, start) + replacement + textArea.val().substring(end, len));
+  }
+  function update() {  
+    if (edited == "") return;
+    var bls = document.getElementById(edited);
+    console.log(bls.children[0].value);
+    bls.innerHTML = document.getElementById("textarea").value;
+    //bls.ondblclick = "edit(" + edited + ")";
+    edited = "";
+    //save();
+  }
+  function save() {
+    if (modal_edition==true) {
+      toastr["error"]("Enregistrement impossible lors de l'utilisation d'une fenetre modale...", "Rrrrrrrr !");
+      return;
+    }
+    try {
+      if (nomDocument==null || nomDocument=="") {
+        nomDocument = prompt("File name : ", "sans-nom");
+        if (nomDocument==null || nomDocument=="") {
+          toastr["error"]("Erreur lors de l'enregistrement :( !</br>Mauvais nom de document !!!!!", "Rrrrrrrr !");
+          return;
+        }
+        document.title = "[ECOURT] " + nomDocument;
+        document.getElementById("title").innerText = nomDocument;
+      }
+      localStorage.setItem(nomDocument, document.getElementById("paper").innerHTML);
+
+      toastr["success"]("Enregistrement <big>temporaire</big> effectué...", "Document saved !");
+    } catch (err) {
+      toastr["error"]("Erreur lors de l'enregistrement :( !</br>Vous pouvez toujours tenter de le télécharger ce document...", "Fatal Error ! :p");
+    }
+  }
+  function load() {
+    try { 
+      edited = "";
+      nomDocument = prompt("File name : ", "sans-nom");
+      var htmlLoaded = localStorage.getItem(nomDocument);
+      if (htmlLoaded==null || htmlLoaded=="") {
+        toastr["error"]("Ce fichier n'existe pas...", "Ouups... :D");
+        createNewDocument(); //pour réinitialiser le nom document proprement...
+        return;
+      }
+      document.title = "[ECOURT] " + nomDocument;
+      document.getElementById("title").innerText = nomDocument;
+      document.getElementById("paper").innerHTML = htmlLoaded;
+      var className = "editable";
+      classname = document.getElementsByClassName(className);
+      for(var i=0;i<classname.length;i++){
+        var str = "edit";
+        console.log("edit("+classname[i].id+")");
+        classname[i].setAttribute("onclick", "edit('"+classname[i].id+"')");
+      } 
+      toastr["success"]("Fichier <big>temporaire</big> chargé...", "Document loaded !");
+    } catch (err) {
+      toastr["error"]("Erreur lors du charmgement :( !", "Ouups... :D");
+    }
+  }
+  function saveTextAsFile() {
+    save();
+    try {
+      var txt = document.getElementById("paper").innerHTML;
+      var textFileAsBlob = new Blob([txt], {type:'text/plain'});
+      var fileNameToSaveAs = document.getElementById("title").innerText + ".ectmp";
+
+      var downloadLink = document.createElement("a");
+      downloadLink.download = fileNameToSaveAs;
+      downloadLink.innerHTML = "Download File";
+      if (window.webkitURL != null)
+      {
+        // Chrome allows the link to be clicked
+        // without actually adding it to the DOM.
+        downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+      }
+      else
+      {
+        // Firefox requires the link to be added to the DOM
+        // before it can be clicked.
+        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+        downloadLink.onclick = destroyClickedElement;
+        downloadLink.style.display = "none";
+        document.body.appendChild(downloadLink);
+      }
+
+      downloadLink.click();
+      toastr["success"]("Fichier parfait pour la sauvegarde...", "Document downloading...");
+    } catch (err) {
+      toastr["error"]("Echec de la sauvegarde sur disque :( !", "Niaaa... :'(");
+    }
+  }
+  function addParagraphe() {
+    var dn = Date.now();
+    var node = document.createElement("div");
+    node.className = "editable p blinking"
+    node.id = ''+dn;
+    node.innerHTML = "Clicker pour méditer ;)"
+    node.onclick = function () { edit(''+dn); }
+
+    var bls = document.getElementById(edited);
+    document.getElementById('paper').insertBefore(node, bls.nextSibling);
+  }
+  function validURL(s) {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+  }
+  function addImage() {
+    var url = prompt("Entrez l'url de l'image ou un mot clef : ", "image");
+    var description = prompt("Entrez une brève description de l'image", "c'est une image")
+    var dn = Date.now();
+    var node = document.createElement("div");
+    node.className = "editable p blinking"
+    node.id = ''+dn;
+    if (!validURL(url)) { //plate bcle infinie !!! :()
+      var tmp = search(url);
+      var i = 0;
+      while (i<10000 || tmp.status!=200)i++;
+      url = imageUrlDuckduckgo;
+    }
+    node.innerHTML = "<img src='" + url + "' alt=''/> <figcaption>" + description + "</figcaption>"
+    node.onclick = function () { edit(''+dn); }
+    var bls = document.getElementById(edited);
+    document.getElementById('paper').insertBefore(node, bls.nextSibling);
+  }
+  function changeClassTypeToH1() {
+    changeClassType(edited, 'h1');
+  }
+  function changeClassTypeToH2() {
+    changeClassType(edited, 'h2');
+  }
+  function changeClassTypeToP() {
+    changeClassType(edited, 'p');
+  }
+  function changeClassType(idt, new_) {
+    var bls = document.getElementById(idt);
+    classTypes = ["h1", "h2", "p"];
+    for (var i = 0; i < classTypes.length; i++)
+      bls.classList.remove(classTypes[i]);
+    bls.classList.add(new_);
+  }
+  function reactOn(event) {
+    if (event.keyCode == 13) {
+      if (edited != "")
+        update();
+      else {
+        var allEditables = document.getElementsByClassName("editable");
+        var lastEditable = allEditables[allEditables.length - 1];
+        edit(lastEditable.id);
+        addParagraphe();
+        update();
+      }
+    }
+    autoResizeTextArea();
+    console.log(event.keyCode);
+  }
+  function autoResizeTextArea() {
+    if (edited == "") return;
+    var txr = document.getElementById("textarea");
+    txr.style.height = "5px";
+    txr.style.height = (txr.scrollHeight)+"px";
+  }
+  function createNewDocument() {
+    nomDocument = "";
+    edited = "";
+    imageUrlDuckduckgo = "";
+    focused = true;
+    document.getElementById("paper").innerHTML = "<div class='editable h1' id='h1-1' onclick='edit(\"h1-1\")'>Titre du nouveau document</div>";
+    document.title = "[ECOURT] *";
+    document.getElementById("title").innerText = "*";
+  }
+
+  function setMenu(e){
+    if (modal_edition==true) { // pas de click menu contextuel permettant d'enregistrer la page lors de l'utilisation d'une fenetre modale
+      return;
+    }
+    $('#context').show();
+    $('#context li').each(function(i){
+      var w = $(this).width();
+      var h = $(this).height();
+      if (e) {
+        e.preventDefault();
+        $(this).offset({left: e.pageX, top: e.pageY-(h/2)});
+      }
+      $(this).css('transform', 'rotate('+(15*(i))+'deg)');
+    });        
+  } 
+  $(document).bind('contextmenu', setMenu);
+  $(document).bind('click', function(e){
+    $('#context').hide();
+  });
+  $(document).ready(function(e) { setMenu(); $('#context').hide(); });
+
+  setInterval(function(){ if((!focused&&nomDocument=="")||(edited!="")||(modal_edition==true))return; update();save(); }, 30000);
+
+  var searchWiki = function(query) {
+    $.ajax({
+      url: 'http://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=' + query,
+      type: 'GET',
+      dataType: 'jsonp',
+      headers: {'Api-User-Agent': 'WikiReader/0.1.0'}
+    }).success(function(data, status) {
+      updateNumResults(data.query);
+      requestArticleExtracts(data.query);
+    }).error(function(data, status) {
+      console.log("ERROR! " + status);
+    });
+  };
+
+  var requestArticleExtracts = function(queryResult) {
+    // Request articles found in the search
+    var extractQuery = 'http://en.wikipedia.org/w/api.php?action=query&prop=extracts&format=json&exsentences=2&exlimit=max&exintro=&explaintext=&titles=';
+    
+    // Add each page title to the search
+    var searchResults = queryResult.search;
+    for (var i=0; i<searchResults.length-1; i++) {
+      extractQuery += searchResults[i].title + '|';
+    }
+    extractQuery += searchResults[searchResults.length-1].title;
+    extractQuery = encodeURI(extractQuery);
+    
+    $.ajax({
+      url: extractQuery,
+      type: 'GET',
+      dataType: 'jsonp',
+      headers: {'Api-User-Agent': 'WikiReader/0.1.0'}
+    }).success(function(data, status) {
+      updateDisplay(data);
+    })
+  };
+
+  var updateNumResults = function(queryResult) {
+    $('.num_results').html("<p class='num_results'>Showing results 1 to 10 of " + queryResult.searchinfo.totalhits + "</p>");
+  };
+
+  var resetDisplay = function() {
+    $('#results_pane').html('');
+    $('.num_results').html('');
+  }
+
+  var updateDisplay = function(queryResult) {
+    var pages = queryResult.query.pages; //(search result);
+    $('#results_pane').html(''); // Find the results pane and reset it
+    for(var pId in pages) {
+      //if (pages[pId].title.toLowerCase().search(actSelected.toString()) >= 0) {
+        var htmlToAdd = "<span class='result_card hvr-bounce-to-right'>";  
+        htmlToAdd += "<a target='_' href='http://en.wikipedia.org/?curid=" + pages[pId].pageid + "'>";
+        htmlToAdd += "<h1>" + pages[pId].title + " &nbsp;|&nbsp;</h1>";
+        htmlToAdd += "</a> </span>"
+        //htmlToAdd += "<p>" + pages[pId].extract + "</p></a></div>";
+        $('#results_pane').append(htmlToAdd);
+      //}
+    }
+  }
+
+  setInterval(function() { 
+    actSelected = window.getSelection();
+    if (actSelected.toString() != "") { //make a wikipedia search :D cool non ??? :p
+      if (actSelected.toString() != oldSelected) {
+        //document.getElementById("results_pane")
+        oldSelected = actSelected.toString();
+        searchWiki(actSelected);
+      }
+    } else { //on suprime les résultats de recherche pour plus de lisibilité
+      document.getElementById("results_pane").innerHTML = "";
+    }
+  }, 500);
+</script>
+
+</html> 
+  

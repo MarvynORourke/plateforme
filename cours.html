@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" type="text/css" href="toastr.css">
+  <link rel="stylesheet" type="text/css" href="paper.css"> 
+  <link rel="stylesheet" type="text/css" href="editor.css"> 
+  <link rel="stylesheet" type="text/css" href="context.css"> 
+  <link rel="stylesheet" type="text/css" href="scrollbar.css"> 
+  <link rel="stylesheet" type="text/css" href="header.css"> 
+  <link rel="stylesheet" type="text/css" href="maths.css"> 
+  <title>[ECOURT] *</title>
+  <style>
+#results_pane {
+  position: fixed;
+  width: 100%;
+  margin: 0 auto;
+  bottom:20px;
+  height:2em;
+  margin: auto;
+  z-index: 5;
+  overflow-y: hidden;
+  background-color: white;
+  opacity: 0.7;
+}
+
+
+.result_card {
+  float: left;
+  padding-left: 5px;
+  content: " | ";
+}
+
+.result_card h1 {
+  font-size: 1em;
+  //margin: 0;
+}
+
+.result_card a {
+  text-decoration: none;
+  color: black;
+}
+  </style>
+</head>
+
+<body onkeypress="reactOn(event)">
+  <div class="page-header">
+    <input type="checkbox" id="fullscreen">
+    <label for="fullscreen"></label>
+    <header>
+      <a href="#home" id="home">ECOURT</a>
+      <span id="title">*</span>
+    </header>
+  </div>
+
+  <!-- Le papier -->
+  <article class="paper" id="paper">
+    <div class="editable h1" id="h1-1" onclick="edit('h1-1')" contenteditable>Titre du cours</div>
+    <div class="editable h2" id="h2-1" onclick="edit('h2-1')" contenteditable>Chapitre I</div>
+    <div  class="editable p" id="p-1"  onclick="edit('p-1')" contenteditable>
+      Ecrivez...
+    </div>
+  </article>
+
+  <!-- Pour le copyright -->
+  <footer class="product" style='font-size: 10px;list-style:none;padding-right: 1%;'>
+    <small>
+      <span style='float: right;'>Licence : <i>CC</i> ;&nbsp;</span>
+      <span style='float: right;'>Partage : <i>Tout le monde</i> ;&nbsp;</span>
+      <span style='float: right;'>Date : <i>30/01/2014</i> ;&nbsp;</span>
+      <span style='float: right;'>Auteur : <i>O.RISSER-MAROIX</i> ;&nbsp;</span>
+      <span style='float: left;'>Une production Olivier RISSER-MAROIX (c) 2015&nbsp;</span>
+    </small>
+  </footer>
+
+  <!-- TODO : fenetre modale pour tapers des equations ou chercher des images -->
+
+  <!-- Pour les sugestions wikipedia -->
+  <div class="" id="results_pane"></div></br>
+
+  <!-- Pour le menu contextuel (click droit) -->
+  <div>
+    <ul id="context">
+      <li><span onclick="update();save();">Save&nbsp;temporary</span></li>
+      <li><span onclick="saveTextAsFile();">Save&nbsp;on&nbsp;hard&nbsp;drive</span></li>
+      <li><span onclick="">Download&nbsp;as&nbsp;html</span></li>
+      <li><span onclick="load();">Load&nbsp;temporary</span></li>
+      <li><span onclick="">Load&nbsp;from&nbsp;hard&nbsp;drive</span></li>
+      <li><span onclick="createNewDocument();">Create&nbsp;new&nbsp;document</span></li>
+    </ul>
+  </div>
+
+
+
+
+</body>
+
+<script src="jquery.min.js"></script>
+<script src="toastr.js"></script>
+
+
+</html> 
