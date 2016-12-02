@@ -60,6 +60,25 @@ def check_user_connection(user_name, password):
     except:
         return False
 
+def add_course(id_user):
+    """Add course in DB"""
+    conn = sqlite3.connect(DB_LOG_NAME)
+    c = conn.cursor()
+    c.execute("""INSERT INTO course
+                 (USER_ID) {'{}'};""".format(id_user))
+    c.close()
+    conn.close()
+
+
+
+def get_course(course_id):
+    """Get course from db"""
+    conn = sqlite3.connect(DB_LOG_NAME)
+    c = conn.cursor()
+    c.execute("""SELECT * from COURSE WHERE course_id = {'{}'}""".format(course_id)
+                 
+    c.close()
+    conn.close()
 
 
 
