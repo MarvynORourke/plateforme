@@ -29,6 +29,7 @@ def upload_page():
 
     return "FAILED TO UPLOAD... :'("
 
+@app.route('/', methods=['GET']) 
 @app.route('/register', methods=['GET'])    
 def register_page():
     return redirect(url_for('static', filename="register.html"))
